@@ -29,19 +29,28 @@ class Product extends PDO{
             return false;
 
         }
-        $path="uploads/".$file_name;
-        $userid=$_SESSION['user']['id'];
-        $query="insert into product (name,price,image,model,desciption,userid) values (:name,:price,:image,:model,:desc,:userid)";
-        $statment=$this->prepare($query);
-        $statment->bindValue(':name',$name);
-        $statment->bindValue(':price',$price);
-        $statment->bindValue(':image',$path);
-        $statment->bindValue(':model',$model);
-        $statment->bindValue(':desc',$desc);
-        $statment->bindValue(':userid',$userid);
-        $statment->execute();
+        
+        try{
+            $path="uploads/".$file_name;
+            // $userid=$_SESSION['user']['id'];
+            $userid=1;
+            $query="insert into product (name,price,image,model,desciption,userid) values (:name,:price,:image,:model,:desc,:userid)";
+        
+            $statment=$this->prepare($query);
+            $statment->bindValue(':name',$name);
+            $statment->bindValue(':price',$price);
+            $statment->bindValue(':image',$path);
+            $statment->bindValue(':model',$model);
+            $statment->bindValue(':desc',$desc);
+            $statment->bindValue(':userid',$userid);
+            $statment->execute();
+            return true;
 
-        return true;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+        
+
 
         // echo $name."".$price."".$desc;
     }
